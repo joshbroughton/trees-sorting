@@ -5,7 +5,10 @@ def is_sorted(items):
     """Return a boolean indicating whether given items are in sorted order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Check that all adjacent items are in order, return early if so
+    for idx, item in enumerate(items):
+        if idx < len(items) - 1 and item > items[idx + 1]:
+            return False
+    return True
 
 
 def bubble_sort(items):
@@ -13,9 +16,12 @@ def bubble_sort(items):
     repeating until all items are in sorted order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Repeat until all items are in sorted order
-    # TODO: Swap adjacent items that are out of order
-
+    # Bubblesort is O(n^2) - the outer loop is in is_sorted in this implementation
+    while not is_sorted(items):
+        for idx, item in enumerate(items):
+            if idx < len(items) - 1 and item > items[idx + 1]:
+                items[idx] = items[idx + 1]
+                items[idx + 1] = item
 
 def selection_sort(items):
     """Sort given items by finding minimum item, swapping it with first
@@ -25,7 +31,14 @@ def selection_sort(items):
     # TODO: Repeat until all items are in sorted order
     # TODO: Find minimum item in unsorted items
     # TODO: Swap it with first unsorted item
-
+    for i, _ in enumerate(items):
+        smallest_index = i
+        for j in range(i + 1, len(items)):
+            if items[j] < items[smallest_index]:
+                smallest_index = j
+        smallest_value = items[smallest_index]
+        items[smallest_index] = items[i]
+        items[i] = smallest_value
 
 def insertion_sort(items):
     """Sort given items by taking first unsorted item, inserting it in sorted
