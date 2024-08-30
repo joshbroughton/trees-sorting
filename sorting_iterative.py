@@ -48,3 +48,14 @@ def insertion_sort(items):
     # TODO: Repeat until all items are in sorted order
     # TODO: Take first unsorted item
     # TODO: Insert it in sorted order in front of items
+    for i, current in enumerate(items):
+        should_shift = False
+        for j in range(0, i + 1):
+            if should_shift:
+                temp = items[j]
+                items[j] = last
+                last = temp
+            elif current < items[j]:
+                should_shift = True
+                last = items[j]
+                items[j] = current
