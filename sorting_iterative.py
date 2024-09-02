@@ -23,7 +23,6 @@ def bubble_sort(items):
     compared to the theoretical best case, but in looking into this my understanding is that enumerate yields the
     index, item pairs on the fly and does not store them in static memory anywhere - so the memory use is constant
     and not proportional to the input size """
-    # Bubblesort is O(n^2) - the outer loop is in is_sorted in this implementation
     list_is_sorted = False
     while not list_is_sorted:
         list_is_sorted = True
