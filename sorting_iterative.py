@@ -14,14 +14,24 @@ def is_sorted(items):
 def bubble_sort(items):
     """Sort given items by swapping adjacent items that are out of order, and
     repeating until all items are in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+    Worst case running time is O(n^2), as the inner for loop of n steps would need to run
+    n times (in the case the list starts reverse-sorted)
+    Best case is O(n), in the case the list starts sorted - no pairs to swap are found on the first pass,
+    so only n steps occur
+
+    Memory use is O(1). I was curious if enumarate() and iterating over an iterable causes additional memory use
+    compared to the theoretical best case, but in looking into this my understanding is that enumerate yields the
+    index, item pairs on the fly and does not store them in static memory anywhere - so the memory use is constant
+    and not proportional to the input size """
     # Bubblesort is O(n^2) - the outer loop is in is_sorted in this implementation
-    while not is_sorted(items):
+    list_is_sorted = False
+    while not list_is_sorted:
+        list_is_sorted = True
         for idx, item in enumerate(items):
             if idx < len(items) - 1 and item > items[idx + 1]:
                 items[idx] = items[idx + 1]
                 items[idx + 1] = item
+                list_is_sorted = False
 
 def selection_sort(items):
     """Sort given items by finding minimum item, swapping it with first
