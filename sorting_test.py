@@ -2,7 +2,7 @@
 
 from sorting import random_ints
 from sorting_iterative import is_sorted, bubble_sort, selection_sort, insertion_sort
-from sorting_recursive import merge_sort, quick_sort
+from sorting_recursive import merge, merge_sort, quick_sort
 
 sort = insertion_sort
 
@@ -97,3 +97,10 @@ def test_sort_on_seven_dwarf_names():
     sorted_items = sorted(items)  # Copy
     sort(items)  # Mutate
     assert items == sorted_items
+
+def test_merge_on_integer_lists():
+    items1 = [1, 4, 7, 8, 9, 15, 23]
+    items2 = [2, 3, 8, 10]
+    expected_merged_items = [1, 2, 3, 4, 7, 8, 8, 9, 10, 15, 23]
+    merged_items = merge(items1, items2)
+    assert merged_items == expected_merged_items

@@ -58,6 +58,8 @@ def insertion_sort(items):
     Average time complexity is O(n^2) due to the nested loops. Worst case is same. Best case is O(n),
     for a sorted list the inner loop will execute in constant time
     Real world benchmark with list of 10000 random ints 0 to 1000 is around 0.97 seconds average
+    - current real world is 1.03. The improvement to make the best case actually O(n) and match the theoretical
+    best case seem to have slightly decreased the average performance.
 
     Space complexity is O(1), we create some temp variables but they are of constant size"""
     for i, current in enumerate(items):
