@@ -17,7 +17,7 @@ def test_sorting(sort=bubble_sort, num_items=20, max_value=50):
     """Test sorting algorithms with a small list of random items."""
     # Create a list of items randomly sampled from range [1...max_value]
     items = random_ints(num_items, 1, max_value)
-    # print('Initial items: {!r}'.format(items))
+    #print('Initial items: {!r}'.format(items))
     print('Sorted order?  {!r}'.format(is_sorted(items)))
 
     #Test the sorting algorithm and ensure the list is sorted afterward
@@ -25,7 +25,7 @@ def test_sorting(sort=bubble_sort, num_items=20, max_value=50):
     # Note: sort should be a mutative function (modify input)
     execution_time = timeit.timeit(lambda: sort(items), number=1)
     print(f'Average execution time: ${execution_time}')
-    # print('Sorted items:  {!r}'.format(items))
+    #print('Sorted items:  {!r}'.format(items))
     print('Sorted order?  {!r}'.format(is_sorted(items)))
 
 

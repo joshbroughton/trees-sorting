@@ -1,14 +1,17 @@
 #!python
 
+from sorting_iterative import insertion_sort
 
 def merge(items1, items2):
     """Merge given lists of items, each assumed to already be in sorted order,
     and return a new list containing all items in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Repeat until one list is empty
-    # TODO: Find minimum item in both lists and append it to new list
-    # TODO: Append remaining items in non-empty list to new list
+    Running time:
+        Best Case: O(1), if either list is empty, time is constant independent of the
+        size of the remaining list
+        Worst/average: O(n), as it will require one pass per item in each list until one is empty
+    Memory usage:
+        O(n), as we create a new_list of length n
+        """
     merged_list = []
     while len(items1) > 0 and len(items2) > 0:
         merged_list.append(items1.pop(0) if items1[0] < items2[0] else items2.pop(0))
@@ -21,14 +24,24 @@ def merge(items1, items2):
 
 
 def split_sort_merge(items):
-     """Sort given items by splitting list into two approximately equal halves,
-     sorting each with an iterative sorting algorithm, and merging results into
-     a list in sorted order.
-     TODO: Running time: ??? Why and under what conditions?
-     TODO: Memory usage: ??? Why and under what conditions?"""
-     # TODO: Split items list into approximately equal halves
-     # TODO: Sort each half using any other sorting algorithm
-     # TODO: Merge sorted halves into one list in sorted order
+    """Sort given items by splitting list into two approximately equal halves,
+    sorting each with an iterative sorting algorithm, and merging results into
+    a list in sorted order.
+    Running time:
+        Same time complexity as underlying sort (O(n^2) / 2 is still O(n^2))
+        The O(n) from the merge is ignored as we only use the term with the highest degree
+        - Best case O(n) for sorted list
+        - Worst and average are O(n^2)
+        - Real world benchmark is ~0.5 seconds with 10000 ints 0 to 1000, which is half of
+        insertion sort time, which is expected
+    Memory use: n/2 + n/2 + n extra lists gives O(n)
+    """
+    split_index = len(items) // 2
+    list1 = items[:split_index]
+    list2 = items[split_index:]
+    insertion_sort(list1)
+    insertion_sort(list2)
+    items[:] = merge(list1, list2)
 
 
 def merge_sort(items):
