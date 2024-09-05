@@ -3,8 +3,12 @@
 
 def is_sorted(items):
     """Return a boolean indicating whether given items are in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+    Running time:
+        O(n) for all cases as it needs to go through the whole list
+
+    Memory usage:
+        O(1), no new list created or other variable creation that is proportional to n
+    """
     for idx, item in enumerate(items):
         if idx < len(items) - 1 and item > items[idx + 1]:
             return False
