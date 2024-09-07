@@ -70,9 +70,11 @@ def insertion_sort(items):
     Space complexity is O(1), we create some temp variables but they are of constant size"""
     for i, current in enumerate(items):
         j = i - 1
-
+        # as long as the item in the sorted list (item[j]) > item we are trying to sort, shift the sorted
+        # item to the right and compare item we are sorting with next lowest item
         while j >= 0 and items[j] > current:
             items[j + 1] = items[j]
             j -= 1
-
+        # once we have found a sorted item < the item we are sorting, or we have run down to index 0
+        # place the item we are sorting into the list (the swapping makes this index open for insertion)
         items[j + 1] = current

@@ -1,5 +1,6 @@
 #!python
 
+import random
 from sorting_iterative import insertion_sort
 
 def merge(items1, items2):
@@ -47,19 +48,34 @@ def split_sort_merge(items):
 def merge_sort(items):
     """Sort given items by splitting list into two approximately equal halves,
     sorting each recursively, and merging results into a list in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Check if list is so small it's already sorted (base case)
-    # TODO: Split items list into approximately equal halves
-    # TODO: Sort each half by recursively calling merge sort
-    # TODO: Merge sorted halves into one list in sorted order
+    Running time:
+        All cases are O(nlog(n))
+        Why? merge is always O(n) (its best case can't happen when we're splitting into equal lists except
+        when they are empty, which occurs after n merges)
+        and we merge log(n) times - any time we divide that's a log(n) operation. technically its a base 2 log
+        but because dividing in 2 is the most common log in time complexity analysis, the base is omitted
+        - Real world benchmark 10000 random ints 1-1000 is ~0.02 seconds - blazing fast!
+    Memory usage:
+        O(n) for the temp split lists created along the way
+    """
+    if len(items) <= 1:
+        return items
+    else:
+        split_index = len(items) // 2
+        list1 = items[:split_index]
+        list2 = items[split_index:]
+        list1 = merge_sort(list1)
+        list2 = merge_sort(list2)
+        items[:] = merge(list1, list2)
+        return items
 
 
 def partition(items, low, high):
     """Return index `p` after in-place partitioning given items in range
-    `[low...high]` by choosing a pivot (TODO: document your method here) from
+    `[low...high]` by choosing a pivot from
     that range, moving pivot into index `p`, items less than pivot into range
     `[low...p-1]`, and items greater than pivot into range `[p+1...high]`.
+    Pivot method: first item in list
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
     # TODO: Choose a pivot any way and document your method in docstring above
@@ -67,7 +83,29 @@ def partition(items, low, high):
     # TODO: Move items less than pivot into front of range [low...p-1]
     # TODO: Move items greater than pivot into back of range [p+1...high]
     # TODO: Move pivot item into final position [p] and return index p
+    pivot = items[low]
+    p = None
+    while True:
+        #look for the first item from the back of the array that is less than the pivot
+        while items[high] >= pivot and high > low:
+            high = high - 1
+        #variations of this conditions mean the paritition is done because the indices have met
+        if high <= low:
+            items[low] = pivot
+            p = low
+            break
+        #place the item we found into the open space
+        items[low] = items[high]
+        #same as above but flipped to advance the low index
+        while items[low] < pivot and low < high:
+            low = low + 1
+        if low >= high:
+            items[high] = pivot
+            p = high
+            break
 
+        items[high] = items[low]
+    return p
 
 def quick_sort(items, low=None, high=None):
     """Sort given items in place by partitioning items in range `[low...high]`
@@ -79,3 +117,14 @@ def quick_sort(items, low=None, high=None):
     # TODO: Check if list or range is so small it's already sorted (base case)
     # TODO: Partition items in-place around a pivot and get index of pivot
     # TODO: Sort each sublist range by recursively calling quick sort
+    if low is None:
+        low = 0
+    if high is None:
+        high = len(items) - 1
+
+    if low >= high:
+        return
+    else:
+        p = partition(items, low, high)
+        quick_sort(items, low, p-1)
+        quick_sort(items, p+1, high)
