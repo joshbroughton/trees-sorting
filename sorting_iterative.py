@@ -8,6 +8,10 @@ def is_sorted(items):
 
     Memory usage:
         O(1), no new list created or other variable creation that is proportional to n
+        I was curious if enumarate() and iterating over an iterable causes additional memory use
+    compared to the theoretical best case, but in looking into this my understanding is that enumerate yields the
+    index, item pairs on the fly and does not store them in static memory anywhere - so the memory use is constant
+    and not proportional to the input size
     """
     for idx, item in enumerate(items):
         if idx < len(items) - 1 and item > items[idx + 1]:
@@ -23,10 +27,8 @@ def bubble_sort(items):
     Best case is O(n), in the case the list starts sorted - no pairs to swap are found on the first pass,
     so only n steps occur. Real world: Around 2.6s for list of 10000 random ints between 1 andn 1000
 
-    Memory use is O(1). I was curious if enumarate() and iterating over an iterable causes additional memory use
-    compared to the theoretical best case, but in looking into this my understanding is that enumerate yields the
-    index, item pairs on the fly and does not store them in static memory anywhere - so the memory use is constant
-    and not proportional to the input size """
+    Memory use is O(1). The temp variable is rewritten each pass.
+    """
     n = len(items)
     while n > 1:
         new_n = 0
