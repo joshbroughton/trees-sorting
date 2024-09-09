@@ -78,34 +78,24 @@ def partition(items, low, high):
     Pivot method: first item in list
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Choose a pivot any way and document your method in docstring above
-    # TODO: Loop through all items in range [low...high]
-    # TODO: Move items less than pivot into front of range [low...p-1]
-    # TODO: Move items greater than pivot into back of range [p+1...high]
-    # TODO: Move pivot item into final position [p] and return index p
     pivot = items[low]
-    p = None
+    lo = low + 1
     while True:
         #look for the first item from the back of the array that is less than the pivot
-        while items[high] >= pivot and high > low:
+        while lo <= high and items[high] >= pivot:
             high = high - 1
-        #variations of this conditions mean the paritition is done because the indices have met
-        if high <= low:
-            items[low] = pivot
-            p = low
+
+        while lo <= high and items[lo] <= pivot:
+            lo = lo + 1
+
+        if high < lo:
             break
         #place the item we found into the open space
-        items[low] = items[high]
-        #same as above but flipped to advance the low index
-        while items[low] < pivot and low < high:
-            low = low + 1
-        if low >= high:
-            items[high] = pivot
-            p = high
-            break
+        items[lo], items[high] = items[high], items[lo]
 
-        items[high] = items[low]
-    return p
+        #same as above but flipped to advance the low index
+    items[low], items[high] = items[high], items[low]
+    return high
 
 def quick_sort(items, low=None, high=None):
     """Sort given items in place by partitioning items in range `[low...high]`

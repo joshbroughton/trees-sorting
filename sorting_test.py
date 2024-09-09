@@ -107,7 +107,7 @@ def test_merge_on_integer_lists():
 
 def test_parition_on_integer_list():
     items = [6, 7, 5, 9, 5, 3, 8, 4, 0, 3, 6]
-    expected_partitioned_list = [3, 0, 5, 4, 5, 3, 6, 8, 9, 7, 6]
+    expected_partitioned_list = [4, 3, 5, 0, 5, 3, 6, 8, 9, 7, 6]
     assert partition(items, 0, len(items) - 1) == 6
     print(items)
     assert items == expected_partitioned_list
