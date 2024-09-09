@@ -76,37 +76,48 @@ def partition(items, low, high):
     that range, moving pivot into index `p`, items less than pivot into range
     `[low...p-1]`, and items greater than pivot into range `[p+1...high]`.
     Pivot method: first item in list
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
+    Running Time:
+        O(n) - the while True makes this sort of unintuitive/difficult to reason about. But we can see that the outer loop
+        has no fixed dependency on n; the total number depends on the progress of the inner loops. The combined effect
+        of these loops is to loop through the whole list once, so the overall time complexity is O(n)
+    Memory usage:
+        O(1), in place partition
+    """
     pivot = items[low]
     lo = low + 1
     while True:
         #look for the first item from the back of the array that is less than the pivot
         while lo <= high and items[high] >= pivot:
             high = high - 1
-
+        #look for the first item from the front of the array larger than the pivot
         while lo <= high and items[lo] <= pivot:
             lo = lo + 1
-
+        #if the values cross, break out of the loop
         if high < lo:
             break
-        #place the item we found into the open space
+        # swap the two out of place items
         items[lo], items[high] = items[high], items[lo]
 
-        #same as above but flipped to advance the low index
+    #swap the pivot into its place
     items[low], items[high] = items[high], items[low]
     return high
 
 def quick_sort(items, low=None, high=None):
     """Sort given items in place by partitioning items in range `[low...high]`
     around a pivot item and recursively sorting each remaining sublist range.
-    TODO: Best case running time: ??? Why and under what conditions?
-    TODO: Worst case running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Check if high and low range bounds have default values (not given)
-    # TODO: Check if list or range is so small it's already sorted (base case)
-    # TODO: Partition items in-place around a pivot and get index of pivot
-    # TODO: Sort each sublist range by recursively calling quick sort
+    Best case running time:
+        O(nlog(n)) - when the pivot splits the list neatly down the middle we get the best case time. If we visualize
+        each recursive partition as a branch in a tree, we get the shortest tree (of height logn) when we get even
+        partitions at each branch.
+    Worst case running time:
+        O(n^2) - This occurs when the partition at each step is at one extreme of the list, as would happen
+        in this implementation when the list is already sorted or reverse sorted. Imagining a tree again, the partitions
+        in this case would create a completely unbalanced tree, whose height would be (O(n)) - * O(n) for partition call
+        gives O(n^2)
+    Memory usage:
+        O(logn) - Recursive methods have a space complexity caused by the recursion stack and equal to the recursion
+        depth.
+    """
     if low is None:
         low = 0
     if high is None:
