@@ -10,14 +10,16 @@ def counting_sort(numbers):
     Memory usage:
         O(m) - we create a list to store the counts (of size m), but copy the output list in place
     """
+    if len(numbers) == 0:
+        return
     min_number, max_number = find_value_range(numbers)
 
     # build the count list, O(m) where m is the range between min and max
     counts_list = [0] * (max_number - min_number + 1)
 
     # determine counts, O(n)
-    for item in numbers:
-        counts_list[item - min_number] += 1
+    for number in numbers:
+        counts_list[number - min_number] += 1
 
     i = 0
     j = 0
@@ -38,12 +40,25 @@ def bucket_sort(numbers, num_buckets=10):
     then sorting each bucket and concatenating all buckets in sorted order.
     TODO: Running time: ??? Why and under what conditions?
     TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Find range of given numbers (minimum and maximum values)
-    # TODO: Create list of buckets to store numbers in subranges of input range
-    # TODO: Loop over given numbers and place each item in appropriate bucket
-    # TODO: Sort each bucket using any sorting algorithm (recursive or another)
-    # TODO: Loop over buckets and append each bucket's numbers into output list
     # FIXME: Improve this to mutate input instead of creating new output list
+    if len(numbers) == 0:
+        return
+    min_number, max_number = find_value_range(numbers)
+    buckets = [[] for _ in range(num_buckets + 1)]
+    step = (max_number - min_number + 2) // num_buckets
+    if step < 1:
+        step = 1
+
+    for number in numbers:
+        bucket_index = number // step
+        buckets[bucket_index].append(number)
+
+    output_list = []
+    for bucket in buckets:
+        counting_sort(bucket)
+        output_list.extend(bucket)
+
+    numbers[:] = output_list
 
 
 def find_value_range(numbers):
@@ -53,10 +68,10 @@ def find_value_range(numbers):
     max_number = min_number = numbers[0]
 
     # find min_number and max_number, O(n)
-    for item in numbers:
-        if item < min_number:
-            min_number = item
-        if item > max_number:
-            max_number = item
+    for number in numbers:
+        if number < min_number:
+            min_number = number
+        if number > max_number:
+            max_number = number
 
     return(min_number, max_number)
