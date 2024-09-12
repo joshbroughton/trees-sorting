@@ -10,15 +10,7 @@ def counting_sort(numbers):
     Memory usage:
         O(m) - we create a list to store the counts (of size m), but copy the output list in place
     """
-    max_number = numbers[0]
-    min_number = numbers[0]
-
-    # find min_number and max_number, O(n)
-    for item in numbers:
-        if item < min_number:
-            min_number = item
-        if item > max_number:
-            max_number = item
+    min_number, max_number = find_value_range(numbers)
 
     # build the count list, O(m) where m is the range between min and max
     counts_list = [0] * (max_number - min_number + 1)
@@ -52,3 +44,19 @@ def bucket_sort(numbers, num_buckets=10):
     # TODO: Sort each bucket using any sorting algorithm (recursive or another)
     # TODO: Loop over buckets and append each bucket's numbers into output list
     # FIXME: Improve this to mutate input instead of creating new output list
+
+
+def find_value_range(numbers):
+    """
+    Helper method to find the range of given numbers
+    """
+    max_number = min_number = numbers[0]
+
+    # find min_number and max_number, O(n)
+    for item in numbers:
+        if item < min_number:
+            min_number = item
+        if item > max_number:
+            max_number = item
+
+    return(min_number, max_number)
