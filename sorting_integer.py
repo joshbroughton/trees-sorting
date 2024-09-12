@@ -11,6 +11,33 @@ def counting_sort(numbers):
     # TODO: Loop over given numbers and increment each number's count
     # TODO: Loop over counts and append that many numbers into output list
     # FIXME: Improve this to mutate input instead of creating new output list
+    max_number = numbers[0]
+    min_number = numbers[0]
+
+    # find min_number and max_number, O(n)
+    for _, item in enumerate(numbers):
+        if item < min_number:
+            min_number = item
+        if item > max_number:
+            max_number = item
+    counts_list = [0] * (max_number - min_number + 1)
+    print(counts_list)
+    print(min_number)
+    print(max_number)
+    # determine counts, O(n)
+    for _, item in enumerate(numbers):
+        print(item)
+        counts_list[item - min_number] += 1
+
+    i = 0
+    j = 0
+    while i < len(counts_list):
+        while counts_list[i] != 0:
+            numbers[j] = i + min_number
+            j += 1
+            counts_list[i] -= 1
+        i +=1
+
 
 
 def bucket_sort(numbers, num_buckets=10):

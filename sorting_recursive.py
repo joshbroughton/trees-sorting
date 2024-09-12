@@ -80,6 +80,7 @@ def partition(items, low, high):
         O(n) - the while True makes this sort of unintuitive/difficult to reason about. But we can see that the outer loop
         has no fixed dependency on n; the total number depends on the progress of the inner loops. The combined effect
         of these loops is to loop through the whole list once, so the overall time complexity is O(n)
+        real world benchmark: 0.008947
     Memory usage:
         O(1), in place partition
     """
