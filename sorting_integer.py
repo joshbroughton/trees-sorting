@@ -48,13 +48,13 @@ def bucket_sort(numbers, num_buckets=10):
     if len(numbers) == 0:
         return
     min_number, max_number = find_value_range(numbers)
-    buckets = [[] for _ in range(num_buckets + 1)]
-    step = (max_number - min_number + 2) // num_buckets
+    buckets = [[] for _ in range(num_buckets)]
+    step = (max_number - min_number + 1) // num_buckets
     if step < 1:
         step = 1
 
     for number in numbers:
-        bucket_index = number // step
+        bucket_index = (number - min_number) // step
         buckets[bucket_index].append(number)
 
     i = 0
