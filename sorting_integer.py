@@ -38,9 +38,13 @@ def counting_sort(numbers):
 def bucket_sort(numbers, num_buckets=10):
     """Sort given numbers by distributing into buckets representing subranges,
     then sorting each bucket and concatenating all buckets in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
-    # FIXME: Improve this to mutate input instead of creating new output list
+    Running time:
+        Time complexity is O(n + n + n + n + m) = O(n+m)
+        Real world bench is 0.0033 - it was twice as fast to write a new output list
+    Memory usage:
+        This version mutating the input uses O(n) memory to create the bucket list.
+        Writing to a new list is O(n + n), or O(n) as well
+    """
     if len(numbers) == 0:
         return
     min_number, max_number = find_value_range(numbers)
@@ -53,12 +57,12 @@ def bucket_sort(numbers, num_buckets=10):
         bucket_index = number // step
         buckets[bucket_index].append(number)
 
-    output_list = []
+    i = 0
     for bucket in buckets:
         counting_sort(bucket)
-        output_list.extend(bucket)
-
-    numbers[:] = output_list
+        while len(bucket) > 0:
+            numbers[i] = bucket.pop(0)
+            i += 1
 
 
 def find_value_range(numbers):
