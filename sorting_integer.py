@@ -50,6 +50,7 @@ def bucket_sort(numbers, num_buckets=10):
     min_number, max_number = find_value_range(numbers)
     buckets = [[] for _ in range(num_buckets)]
     step = (max_number - min_number + 1) // num_buckets
+    # edge case where step is 0
     if step < 1:
         step = 1
 

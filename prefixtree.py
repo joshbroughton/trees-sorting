@@ -35,15 +35,27 @@ class PrefixTree:
 
     def is_empty(self):
         """Return True if this prefix tree is empty (contains no strings)."""
-        # TODO
+        return self.size == 0
 
     def contains(self, string):
         """Return True if this prefix tree contains the given string."""
-        # TODO
+        if string in self.strings:
+            return True
+        else:
+            return False
 
     def insert(self, string):
         """Insert the given string into this prefix tree."""
-        # TODO
+        if self.contains(string):
+            return
+
+        current_node, index = self._find_node(string)
+        for character in string[index:]:
+            new_node = PrefixTreeNode(character)
+            current_node.add_child(character, new_node)
+            current_node = new_node
+
+        self.size += 1
 
     def _find_node(self, string):
         """Return a pair containing the deepest node in this prefix tree that
@@ -55,7 +67,19 @@ class PrefixTree:
             return self.root, 0
         # Start with the root node
         node = self.root
-        # TODO
+        depth = 0
+        # check each level for a node that holds the current string character
+        # if we find one, increment depth, set current node to that node
+        # look for the next string char in that nodes children
+        while True:
+            for child_node in node.children:
+                if child_node.character == string[depth]:
+                    node = child_node
+                    depth += 1
+                    break
+
+            if child_node != node:
+                return node, depth
 
     def complete(self, prefix):
         """Return a list of all strings stored in this prefix tree that start
@@ -74,7 +98,10 @@ class PrefixTree:
         """Traverse this prefix tree with recursive depth-first traversal.
         Start at the given node with the given prefix representing its path in
         this prefix tree and visit each node with the given visit function."""
-        # TODO
+        # if node is terminal, execute the vist function
+        if node.is_terminal:
+
+        # else append current nodes character to prefix, and recursively call _traverse
 
 
 def create_prefix_tree(strings):
