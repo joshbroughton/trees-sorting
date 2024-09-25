@@ -75,16 +75,17 @@ class PrefixTree:
         # check each level for a node that holds the current string character
         # if we find one, increment depth, set current node to that node
         # look for the next string char in that nodes children
-        while True:
-            finished = True
+        match = True
+        while match and depth < len(string):
+            match = False
             for child_node in node.children:
                 if child_node.character == string[depth]:
                     node = child_node
                     depth += 1
-                    finished = False
+                    match = True
                     break
-            if finished or depth >= len(string):
-                break
+        if node == self.root:
+            return self.root, 0
         return node, depth
 
     def complete(self, prefix):
@@ -93,6 +94,8 @@ class PrefixTree:
         # Create a list of completions in prefix tree
         completions = []
         node, depth = self._find_node(prefix)
+        if node == self.root:
+            return completions
         self._traverse(node, prefix, completions.append)
         return completions
 
