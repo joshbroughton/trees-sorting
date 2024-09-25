@@ -50,13 +50,16 @@ class PrefixTree:
             return
 
         current_node, index = self._find_node(string)
-        if current_node.character == string:
+        # condition for if the inserted string exists in the tree as a prefix
+        if index == len(string):
             current_node.terminal = True
-        for character in string[index:]:
+        # otherwise, insert nodes until the string is added
+        for i, character in enumerate(string[index:]):
             new_node = PrefixTreeNode(character)
             current_node.add_child(character, new_node)
             current_node = new_node
-            if character == string[-1]:
+            # mark the last add we add as terminal
+            if i + index == len(string) - 1:
                 current_node.terminal = True
 
         self.size += 1
