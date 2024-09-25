@@ -39,7 +39,7 @@ class PrefixTree:
 
     def contains(self, string):
         """Return True if this prefix tree contains the given string."""
-        if string in self.strings:
+        if string in self.strings():
             return True
         else:
             return False
@@ -50,10 +50,14 @@ class PrefixTree:
             return
 
         current_node, index = self._find_node(string)
+        if current_node.character == string:
+            current_node.terminal = True
         for character in string[index:]:
             new_node = PrefixTreeNode(character)
             current_node.add_child(character, new_node)
             current_node = new_node
+            if character == string[-1]:
+                current_node.terminal = True
 
         self.size += 1
 
@@ -72,36 +76,44 @@ class PrefixTree:
         # if we find one, increment depth, set current node to that node
         # look for the next string char in that nodes children
         while True:
+            finished = True
             for child_node in node.children:
                 if child_node.character == string[depth]:
                     node = child_node
                     depth += 1
+                    finished = False
                     break
-
-            if child_node != node:
-                return node, depth
+            if finished or depth >= len(string):
+                break
+        return node, depth
 
     def complete(self, prefix):
         """Return a list of all strings stored in this prefix tree that start
         with the given prefix string."""
         # Create a list of completions in prefix tree
         completions = []
-        # TODO
+        node, depth = self._find_node(prefix)
+        self._traverse(node, prefix, completions.append)
+        return completions
 
     def strings(self):
         """Return a list of all strings stored in this prefix tree."""
         # Create a list of all strings in prefix tree
         all_strings = []
-        # TODO
+        self._traverse(self.root, '', all_strings.append)
+        return all_strings
 
     def _traverse(self, node, prefix, visit):
         """Traverse this prefix tree with recursive depth-first traversal.
         Start at the given node with the given prefix representing its path in
         this prefix tree and visit each node with the given visit function."""
         # if node is terminal, execute the vist function
-        if node.is_terminal:
-
-        # else append current nodes character to prefix, and recursively call _traverse
+        if node.is_terminal():
+            visit(prefix)
+        # current node char is already in prefix, add child node on each iteration
+        for child_node in node.children:
+            new_prefix = prefix + child_node.character
+            self._traverse(child_node, new_prefix, visit)
 
 
 def create_prefix_tree(strings):
